@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Fonts\material.ttf" />
+    <None Remove="Resources\Fonts\Raleway-Black.ttf" />
+    <None Remove="Resources\Fonts\Raleway-Regular.ttf" />
+    <None Remove="Resources\secrets.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\material.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Raleway-Black.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Raleway-Regular.ttf" />
+    <EmbeddedResource Include="Resources\secrets.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Atlassian.SDK" Version="12.0.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="RestSharp" Version="106.10.1" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
+    <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.3.1.1" />
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.282-pre4" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1422" />
+    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.5.0.282-pre4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Rapport.Contracts\Rapport.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\LoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
