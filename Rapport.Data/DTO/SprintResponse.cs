@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-
-namespace Rapport.DTO
+namespace Rapport.Data.DTO
 {
-    public partial class SprintResponse
+    public class SprintResponse
     {
         [JsonProperty("maxResults")]
         public long MaxResults { get; set; }
@@ -20,8 +19,10 @@ namespace Rapport.DTO
         public List<Sprint> Sprints { get; set; }
     }
 
-    public partial class Sprint
+    public class Sprint
     {
+        public static Sprint Empty = new Sprint();
+
         [JsonProperty("id")]
         public long Id { get; set; }
 
@@ -45,5 +46,7 @@ namespace Rapport.DTO
 
         [JsonProperty("goal")]
         public string Goal { get; set; }
+
+
     }
 }

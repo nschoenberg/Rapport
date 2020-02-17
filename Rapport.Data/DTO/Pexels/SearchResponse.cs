@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Rapport.DTO.Pexels
+namespace Rapport.Data.DTO.Pexels
 {
     namespace Rapport.DTO
     {

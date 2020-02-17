@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using Rapport.DTO.Pexels.Rapport.DTO;
+using Rapport.Data.DTO.Pexels.Rapport.DTO;
 using RestSharp;
 
 namespace Rapport.Pexels

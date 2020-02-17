@@ -4,25 +4,33 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:Rapport.ViewModels;assembly=Rapport"
-             xmlns:dto="clr-namespace:Rapport.DTO;assembly=Rapport"
+             xmlns:dto="clr-namespace:Rapport.Data.DTO;assembly=Rapport.Data"
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:contracts="clr-namespace:Rapport.Contracts;assembly=Rapport.Contracts"
              mc:Ignorable="d"
-             x:Class="Rapport.Views.MainPage"
+             x:Class="Rapport.Views.BoardSelectPage"
              Title="{Binding Title}">
     <d:ContentPage.BindingContext>
-        <viewModels:MainPageViewModel />
+        <viewModels:BoardPageViewModel />
     </d:ContentPage.BindingContext>
     
     <ListView 
         ItemsSource="{Binding Boards}" 
         IsPullToRefreshEnabled="True" 
+        RefreshCommand="{Binding RefreshCommand}"
         IsRefreshing="{Binding IsRefreshing}" 
         CachingStrategy="RecycleElementAndDataTemplate"
         android:ListView.IsFastScrollEnabled="true">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="dto:Board">
                 <TextCell Text="{Binding Name}" 
-                          Detail="{Binding Type}" />
+                          Detail="{Binding Type}" 
+                          Command="{prism:NavigateTo Name={x:Static contracts:Pages.IssueSelect}}">
+                    <TextCell.CommandParameter>
+                        <prism:Parameter Key="model" Value="{Binding .}" />
+                    </TextCell.CommandParameter>
+                </TextCell>
             </DataTemplate>
         </ListView.ItemTemplate>
         

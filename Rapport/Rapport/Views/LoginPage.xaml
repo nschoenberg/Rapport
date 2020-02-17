@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:Rapport.ViewModels;assembly=Rapport"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:contracts="clr-namespace:Rapport.Contracts;assembly=Rapport.Contracts"
              NavigationPage.HasBackButton="False"
              NavigationPage.HasNavigationBar="False"
              mc:Ignorable="d"
@@ -14,21 +15,27 @@
     <d:ContentPage.BindingContext>
         <viewModels:LoginPageViewModel />
     </d:ContentPage.BindingContext>
-        
+
     <RefreshView Command="{Binding RefreshBackgroundImageCommand}"
                  IsRefreshing="{Binding IsRefreshing}">
         <StackLayout VerticalOptions="FillAndExpand">
             <StackLayout VerticalOptions="CenterAndExpand" Margin="20" BackgroundColor="#CC4a4e54" Padding="20">
-                <Entry Placeholder="Benutzername" TextColor="Azure"/>
-                <Entry Placeholder="Passwort" TextColor="Azure" />
-                <Button Text="Login" Command="{prism:NavigateTo 'MainPage'}" />
+                <Entry Placeholder="Benutzername" TextColor="Azure" Text="{Binding UserName}"/>
+                <Entry Placeholder="Passwort" TextColor="Azure" Text="{Binding UserPassword}" IsPassword="True" />
+                <Button Text="Login" Command="{prism:NavigateTo Name={x:Static contracts:Pages.Home}}">
+                    <Button.CommandParameter>
+                        <prism:Parameters>
+                            <prism:Parameter Key="user" Value="{Binding UserName}" />
+                            <prism:Parameter Key="password" Value="{Binding UserPassword}" />
+                        </prism:Parameters>
+                    </Button.CommandParameter>
+                </Button>
                 <Button Text="Refresh" 
                         BackgroundColor="#718792"
                         BorderColor="{StaticResource TextColor}"
                         BorderWidth="1"
-                        
-                        Command="{Binding RefreshBackgroundImageCommand}">
-                </Button>
+                        Command="{Binding RefreshBackgroundImageCommand}" />
+                    
             </StackLayout>
 
             <StackLayout VerticalOptions="End" Orientation="Horizontal">

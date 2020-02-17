@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Rapport.DTO.Pexels.Rapport.DTO;
+using Rapport.Data.DTO.Pexels.Rapport.DTO;
 using RestSharp;
 
 namespace Rapport.Pexels

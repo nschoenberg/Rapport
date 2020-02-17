@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Rapport.DTO
+namespace Rapport.Data.DTO
 {
     public partial class BoardResponse
     {

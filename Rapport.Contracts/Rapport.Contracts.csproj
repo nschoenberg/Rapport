@@ -8,4 +8,8 @@
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Rapport.Data\Rapport.Data.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Rapport.Services;
 using Xamarin.Essentials.Interfaces;
@@ -15,12 +12,29 @@ namespace Rapport.ViewModels
     {
         private readonly IImageService _imageService;
 
+        private ImageSource _backgroundImage;
+
+        private bool _canExecuteRefresh;
+
+        private bool _isRefreshing;
+
+        private string _pexelLink;
+
+        private string _photographer;
+
+        private ICommand _refreshBackgroundImageCommand;
+
+        private string _userName;
+
+        private string _userPassword;
+
         public LoginPageViewModel() : base(null)
         {
             // Design Time Constructor
         }
 
-        public LoginPageViewModel(IDeviceDisplay deviceDisplay, IImageService imageService, INavigationService navigationService) : base(navigationService)
+        public LoginPageViewModel(IDeviceDisplay deviceDisplay, IImageService imageService,
+            INavigationService navigationService) : base(navigationService)
         {
             _imageService = imageService;
             //var uri = new Uri(
@@ -36,59 +50,57 @@ namespace Rapport.ViewModels
             //_backgroundImage = ImageSource.FromUri(uri);
         }
 
-        private ImageSource _backgroundImage;
         public ImageSource BackgroundImageSource
         {
             get { return _backgroundImage; }
             set { SetProperty(ref _backgroundImage, value); }
         }
 
-        private string _photographer;
         public string Photographer
         {
             get { return _photographer; }
             set { SetProperty(ref _photographer, value); }
         }
 
-        private string _pexelLink;
-        public string PexelLink
-        {
-            get { return _pexelLink; }
-            set { SetProperty(ref _pexelLink, value); }
-        }
-
-        private ICommand _refreshBackgroundImageCommand;
         public ICommand RefreshBackgroundImageCommand =>
-            _refreshBackgroundImageCommand ?? (_refreshBackgroundImageCommand = new DelegateCommand(ExecuteRefreshBackgroundCommand).ObservesCanExecute(() => CanExecuteRefresh));
+            _refreshBackgroundImageCommand ?? (_refreshBackgroundImageCommand =
+                new DelegateCommand(ExecuteRefreshBackgroundCommand).ObservesCanExecute(() => CanExecuteRefresh));
 
-        private bool _canExecuteRefresh;
         public bool CanExecuteRefresh
         {
             get { return _canExecuteRefresh; }
             set { SetProperty(ref _canExecuteRefresh, value); }
         }
 
-        private bool _isRefreshing;
+        public string UserName
+        {
+            get { return _userName; }
+            set { SetProperty(ref _userName, value); }
+        }
+
+        public string UserPassword
+        {
+            get { return _userPassword; }
+            set { SetProperty(ref _userPassword, value); }
+        }
+
         public bool IsRefreshing
         {
             get { return _isRefreshing; }
             set
             {
                 var changed = SetProperty(ref _isRefreshing, value);
-                if (changed && value)
-                {
-
-                }
+                if (changed && value) { }
             }
         }
 
-
-        private void ExecuteRefreshBackgroundCommand()
+        public void Initialize(INavigationParameters parameters)
         {
             _ = RefreshBackgroundImageAsync();
         }
 
-        public void Initialize(INavigationParameters parameters)
+
+        private void ExecuteRefreshBackgroundCommand()
         {
             _ = RefreshBackgroundImageAsync();
         }

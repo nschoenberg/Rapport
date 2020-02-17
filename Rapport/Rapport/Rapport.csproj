@@ -32,10 +32,26 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Rapport.Contracts\Rapport.Contracts.csproj" />
+    <ProjectReference Include="..\..\Rapport.Data\Rapport.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\BoardSelectPage.xaml.cs">
+      <DependentUpon>BoardSelectPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\HomePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\IssueSelectPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\OverviewPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

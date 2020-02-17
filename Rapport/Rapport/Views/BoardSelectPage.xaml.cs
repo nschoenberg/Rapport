@@ -2,9 +2,9 @@
 
 namespace Rapport.Views
 {
-    public partial class MainPage : ContentPage
+    public partial class BoardSelectPage : ContentPage
     {
-        public MainPage()
+        public BoardSelectPage()
         {
             InitializeComponent();
         }

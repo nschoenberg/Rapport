@@ -32,18 +32,23 @@ namespace Rapport
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+            await NavigationService.NavigateAsync("NavigationPage/" + Pages.Login);
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
-            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
 
             containerRegistry.RegisterSingleton<IDeviceDisplay, DeviceDisplayImplementation>();
             containerRegistry.RegisterSingleton<IPexelsRestClient, PexelsRestClient>();
             containerRegistry.RegisterSingleton<IImageService, ImageService>();
+            containerRegistry.RegisterSingleton<IJiraService, JiraService>();
+
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<BoardSelectPage, BoardPageViewModel>(Pages.BoardSelect);
+            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>(Pages.Login);
+            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>(Pages.Home);
+            containerRegistry.RegisterForNavigation<OverviewPage, OverviewPageViewModel>(Pages.Overview);
+            containerRegistry.RegisterForNavigation<IssueSelectPage, IssueSelectPageViewModel>(Pages.IssueSelect);
         }
     }
 }
