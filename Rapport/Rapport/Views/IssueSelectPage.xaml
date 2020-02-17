@@ -6,10 +6,40 @@
              mc:Ignorable="d"
              xmlns:prism="http://prismlibrary.com"
              xmlns:viewModels="clr-namespace:Rapport.ViewModels;assembly=Rapport"
+             xmlns:contracts="clr-namespace:Rapport.Contracts;assembly=Rapport.Contracts"
+             xmlns:jira="clr-namespace:Atlassian.Jira;assembly=Atlassian.Jira"
              prism:ViewModelLocator.AutowireViewModel="True"
              Title="{Binding Title}"
              x:Class="Rapport.Views.IssueSelectPage">
-  <d:ContentPage.BindingContext>
+    
+    <d:ContentPage.BindingContext>
       <viewModels:IssueSelectPageViewModel />
-  </d:ContentPage.BindingContext>
+    </d:ContentPage.BindingContext>
+
+    <ListView 
+        ItemsSource="{Binding Issues}" 
+        IsPullToRefreshEnabled="True" 
+        RefreshCommand="{Binding RefreshCommand}"
+        IsRefreshing="{Binding IsRefreshing}" 
+        CachingStrategy="RecycleElementAndDataTemplate"
+        HasUnevenRows="True">
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="jira:Issue">
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal" Margin="5, 0, 0, 5" >
+                        
+                        <Switch HorizontalOptions="Start"
+                                VerticalOptions="CenterAndExpand" />
+                        <StackLayout Spacing="1">
+                            <Label Text="{Binding Key}" FontAttributes="Bold"/>
+                            <Label Text="{Binding Summary}" FontSize="10"/>
+                        </StackLayout>
+                    </StackLayout>
+
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+    </ListView>
+
 </ContentPage>

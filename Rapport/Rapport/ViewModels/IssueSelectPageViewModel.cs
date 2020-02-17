@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Atlassian.Jira;
 using Prism.Navigation;
@@ -22,10 +23,11 @@ namespace Rapport.ViewModels
             INavigationService navigationService,
             IJiraService jiraService) : base(navigationService)
         {
+            Title = "Select Issues";
             _jiraService = jiraService;
         }
 
-        public IList<Data.DTO.IssueSmall> Issues { get; } = new ObservableCollection<Data.DTO.IssueSmall>();
+        public IList<Issue> Issues { get; } = new ObservableCollection<Issue>();
 
         public override void Initialize(INavigationParameters parameters)
         {
@@ -37,10 +39,10 @@ namespace Rapport.ViewModels
         {
             Issues.Clear();
 
-            var sprint = await _jiraService.GetActiveSprint(_board);
+            var sprint = await _jiraService.GetActiveSprint(_board).ConfigureAwait(false);
             var issues = await _jiraService.GetIssues(_board, sprint);
 
-            foreach (var issue in issues)
+            foreach (var issue in issues.OrderBy(i => i.JiraIdentifier))
             {
                 Issues.Add(issue);
             }
