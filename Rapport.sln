@@ -14,11 +14,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF25B0E3-0394-4A1E-AE82-E81AB96F80F7}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		appcenter-pre-build.sh = appcenter-pre-build.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rapport.Contracts", "Rapport.Contracts\Rapport.Contracts.csproj", "{EA093318-7D90-40D2-8456-0081825980E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rapport.Data", "Rapport.Data\Rapport.Data.csproj", "{32AA0145-3205-48E3-932D-2A6C0056A060}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rapport.Data", "Rapport.Data\Rapport.Data.csproj", "{32AA0145-3205-48E3-932D-2A6C0056A060}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
