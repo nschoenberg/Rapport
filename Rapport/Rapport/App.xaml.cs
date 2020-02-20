@@ -1,4 +1,5 @@
-﻿using Prism;
+﻿using AutoMapper;
+using Prism;
 using Prism.Ioc;
 using Rapport.Contracts;
 using Rapport.Pexels;
@@ -41,6 +42,7 @@ namespace Rapport
             containerRegistry.RegisterSingleton<IDeviceDisplay, DeviceDisplayImplementation>();
             containerRegistry.RegisterSingleton<IPexelsRestClient, PexelsRestClient>();
             containerRegistry.RegisterSingleton<IImageService, ImageService>();
+            containerRegistry.RegisterInstance<IConfigurationProvider>(MappingDefinition.GetConfigurationProvider());
             containerRegistry.RegisterSingleton<IJiraService, JiraService>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();

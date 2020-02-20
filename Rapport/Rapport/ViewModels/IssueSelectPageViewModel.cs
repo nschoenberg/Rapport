@@ -2,17 +2,16 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Atlassian.Jira;
 using Prism.Navigation;
 using Rapport.Contracts;
-using Rapport.Data.DTO;
+using Rapport.Data.Models;
 
 namespace Rapport.ViewModels
 {
     public class IssueSelectPageViewModel : RefreshViewModelBase
     {
         private readonly IJiraService _jiraService;
-        private Board _board;
+        private BoardModel _board;
 
         public IssueSelectPageViewModel() : base(null)
         {
@@ -27,11 +26,11 @@ namespace Rapport.ViewModels
             _jiraService = jiraService;
         }
 
-        public IList<Issue> Issues { get; } = new ObservableCollection<Issue>();
+        public IList<IssueModel> Issues { get; } = new ObservableCollection<IssueModel>();
 
         public override void Initialize(INavigationParameters parameters)
         {
-            _board = parameters.GetValue<Board>("model");
+            _board = parameters.GetValue<BoardModel>("model");
             base.Initialize(parameters);
         }
 
@@ -40,7 +39,9 @@ namespace Rapport.ViewModels
             Issues.Clear();
 
             var sprint = await _jiraService.GetActiveSprint(_board).ConfigureAwait(false);
-            var issues = await _jiraService.GetIssues(_board, sprint);
+
+            // TODO: Verify correct synchornization context is used here since Collection Issues is not thread safe and UI bound
+            var issues = await _jiraService.GetIssues(_board, sprint).ConfigureAwait(true);
 
             foreach (var issue in issues.OrderBy(i => i.JiraIdentifier))
             {

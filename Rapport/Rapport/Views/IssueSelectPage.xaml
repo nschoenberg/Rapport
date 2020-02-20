@@ -6,8 +6,7 @@
              mc:Ignorable="d"
              xmlns:prism="http://prismlibrary.com"
              xmlns:viewModels="clr-namespace:Rapport.ViewModels;assembly=Rapport"
-             xmlns:contracts="clr-namespace:Rapport.Contracts;assembly=Rapport.Contracts"
-             xmlns:jira="clr-namespace:Atlassian.Jira;assembly=Atlassian.Jira"
+             xmlns:models="clr-namespace:Rapport.Data.Models;assembly=Rapport.Data"
              prism:ViewModelLocator.AutowireViewModel="True"
              Title="{Binding Title}"
              x:Class="Rapport.Views.IssueSelectPage">
@@ -24,7 +23,7 @@
         CachingStrategy="RecycleElementAndDataTemplate"
         HasUnevenRows="True">
         <ListView.ItemTemplate>
-            <DataTemplate x:DataType="jira:Issue">
+            <DataTemplate x:DataType="models:IssueModel">
                 <ViewCell>
                     <StackLayout Orientation="Horizontal" Margin="5, 0, 0, 5" >
                         

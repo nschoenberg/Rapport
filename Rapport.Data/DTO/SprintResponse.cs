@@ -21,7 +21,7 @@ namespace Rapport.Data.DTO
 
     public class Sprint
     {
-        public static Sprint Empty = new Sprint();
+        public static readonly Sprint Empty = new Sprint();
 
         [JsonProperty("id")]
         public long Id { get; set; }

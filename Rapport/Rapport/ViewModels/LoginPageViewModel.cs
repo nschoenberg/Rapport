@@ -89,24 +89,24 @@ namespace Rapport.ViewModels
             get { return _isRefreshing; }
             set
             {
-                var changed = SetProperty(ref _isRefreshing, value);
-                if (changed && value) { }
+                SetProperty(ref _isRefreshing, value);
             }
         }
 
         public void Initialize(INavigationParameters parameters)
         {
-            _ = RefreshBackgroundImageAsync();
+            // _ = RefreshBackgroundImageAsync();
         }
 
 
         private void ExecuteRefreshBackgroundCommand()
         {
-            _ = RefreshBackgroundImageAsync();
+            // _ = RefreshBackgroundImageAsync();
         }
 
         private async Task RefreshBackgroundImageAsync()
         {
+            return; //await Task.CompletedTask;
             if (IsRefreshing == false)
             {
                 IsRefreshing = true;

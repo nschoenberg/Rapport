@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Rapport.Models;
+using Rapport.Data.Models;
 
 namespace Rapport.Services
 {

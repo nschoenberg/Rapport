@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Atlassian.Jira;
 using JetBrains.Annotations;
-using Rapport.Data.DTO;
+using Rapport.Data.Models;
 
 namespace Rapport.Contracts
 {
@@ -11,12 +10,12 @@ namespace Rapport.Contracts
         void Initialize([NotNull] string userName, [NotNull] string userPassword);
 
         [NotNull]
-        Task<IEnumerable<Board>> GetAllBoardsAsync();
+        Task<IEnumerable<BoardModel>> GetAllBoardsAsync();
 
         [NotNull]
-        Task<Sprint> GetActiveSprint([NotNull] Board board);
+        Task<SprintModel> GetActiveSprint([NotNull] BoardModel board);
 
         [NotNull]
-        Task<IEnumerable<Issue>> GetIssues([NotNull] Board board, [NotNull] Sprint sprint);
+        Task<IEnumerable<IssueModel>> GetIssues([NotNull] BoardModel board, [NotNull] SprintModel sprint);
     }
 }

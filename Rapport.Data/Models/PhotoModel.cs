@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using Prism.Mvvm;
 
-namespace Rapport.Models
+namespace Rapport.Data.Models
 {
     public class PhotoModel : BindableBase
     {

@@ -6,7 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="Atlassian.SDK" Version="12.0.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1422" />
   </ItemGroup>
 
 </Project>

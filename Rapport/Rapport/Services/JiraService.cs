@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Atlassian.Jira;
+using AutoMapper;
 using JetBrains.Annotations;
 using Rapport.Contracts;
 using Rapport.Data.DTO;
-
+using Rapport.Data.Models;
 using RestSharp;
-
-using Sprint = Rapport.Data.DTO.Sprint;
 
 namespace Rapport.Services
 {
@@ -22,6 +21,12 @@ namespace Rapport.Services
     public class JiraService : IJiraService
     {
         private Jira _jira;
+        private IMapper _mapper;
+
+        public JiraService(IConfigurationProvider mappingConfigurationProvider)
+        {
+            _mapper = new Mapper(mappingConfigurationProvider);
+        }
 
         public void Initialize(string userName, string userPassword)
         {
@@ -30,7 +35,7 @@ namespace Rapport.Services
 
         [NotNull]
         [ItemNotNull]
-        public async Task<IEnumerable<Board>> GetAllBoardsAsync()
+        public async Task<IEnumerable<BoardModel>> GetAllBoardsAsync()
         {
             EnsureInitialized();
 
@@ -62,12 +67,14 @@ namespace Rapport.Services
                 // TODO Log
             }
 
-            return boards;
+            return _mapper.Map<IEnumerable<Board>, IEnumerable<BoardModel>>(boards);
         }
 
-        public async Task<Sprint> GetActiveSprint(Board board)
+        public async Task<SprintModel> GetActiveSprint(BoardModel board)
         {
             EnsureInitialized();
+
+            var sprint = Sprint.Empty;
 
             try
             {
@@ -75,19 +82,23 @@ namespace Rapport.Services
                     .RestClient
                     .ExecuteRequestAsync<SprintResponse>(Method.GET, "rest/agile/1.0/board/" + board.Id + "/sprint?state=active")
                     .ConfigureAwait(false);
-
-                return sprintResponse.Sprints.First();
+                
+                sprint = sprintResponse.Sprints.First();
             }
             catch (Exception e)
             {
-                // TODO Log
-                return Sprint.Empty;
+                // TODO Logging
             }
+
+            return _mapper.Map<SprintModel>(sprint);
+
         }
 
-        public async Task<IEnumerable<Issue>> GetIssues(Board board, Sprint sprint)
+        public async Task<IEnumerable<IssueModel>> GetIssues(BoardModel board, SprintModel sprint)
         {
             EnsureInitialized();
+
+            var issues = Enumerable.Empty<Issue>();
 
             try
             {
@@ -98,15 +109,14 @@ namespace Rapport.Services
 
                 var tasks = issuesResponse.Issues.Select(issue => _jira.Issues.GetIssueAsync(issue.Key));
 
-                var issues = await Task.WhenAll(tasks).ConfigureAwait(false);
-
-                return issues;
+                issues = await Task.WhenAll(tasks).ConfigureAwait(false);
             }
             catch (Exception e)
             {
                 // TODO Log
-                return Enumerable.Empty<Issue>();
             }
+
+            return _mapper.Map<IEnumerable<Issue>, IEnumerable<IssueModel>>(issues);
         }
 
         private void EnsureInitialized()
