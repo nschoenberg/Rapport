@@ -9,11 +9,19 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              Title="{Binding Title}"
              x:Class="Rapport.Views.OverviewPage">
-    
+
     <d:ContentPage.BindingContext>
         <viewModels:OverviewPageViewModel />
     </d:ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
-    <Label Text="Overview" />
+    <StackLayout>
+        <Label Text="IAPP-4711" />
+        <Label FontSize="30">01:47:11</Label>
+    </StackLayout>
 
 </ContentPage>

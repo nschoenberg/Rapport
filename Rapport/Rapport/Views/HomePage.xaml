@@ -8,6 +8,9 @@
             xmlns:views="clr-namespace:Rapport.Views;assembly=Rapport"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             prism:ViewModelLocator.AutowireViewModel="True"
+            BarBackgroundColor="{StaticResource PrimaryLightColor}"
+            Visual="Material"
+            
             x:Class="Rapport.Views.HomePage" android:TabbedPage.ToolbarPlacement="Bottom">
 
     <views:OverviewPage />

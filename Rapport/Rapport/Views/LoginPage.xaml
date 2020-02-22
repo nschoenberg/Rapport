@@ -6,6 +6,7 @@
              xmlns:viewModels="clr-namespace:Rapport.ViewModels;assembly=Rapport"
              xmlns:prism="http://prismlibrary.com"
              xmlns:contracts="clr-namespace:Rapport.Contracts;assembly=Rapport.Contracts"
+             xmlns:behaviors="clr-namespace:Rapport.Behaviors;assembly=Rapport"
              NavigationPage.HasBackButton="False"
              NavigationPage.HasNavigationBar="False"
              mc:Ignorable="d"
@@ -20,22 +21,26 @@
                  IsRefreshing="{Binding IsRefreshing}">
         <StackLayout VerticalOptions="FillAndExpand">
             <StackLayout VerticalOptions="CenterAndExpand" Margin="20" BackgroundColor="#CC4a4e54" Padding="20">
-                <Entry Placeholder="Benutzername" TextColor="Azure" Text="{Binding UserName}"/>
-                <Entry Placeholder="Passwort" TextColor="Azure" Text="{Binding UserPassword}" IsPassword="True" />
-                <Button Text="Login" Command="{prism:NavigateTo Name={x:Static contracts:Pages.Home}}">
-                    <Button.CommandParameter>
-                        <prism:Parameters>
-                            <prism:Parameter Key="user" Value="{Binding UserName}" />
-                            <prism:Parameter Key="password" Value="{Binding UserPassword}" />
-                        </prism:Parameters>
-                    </Button.CommandParameter>
-                </Button>
+                <Entry Placeholder="Benutzername" 
+                       TextColor="{OnPlatform UWP={StaticResource SecondaryTextColor}, Default=Azure}" 
+                       Text="{Binding UserName}">
+                    <Entry.Behaviors>
+                        <behaviors:FocusNextEntryBehavior NextEntry="{x:Reference PasswordEntry}"/>
+                    </Entry.Behaviors>
+                </Entry>
+                <Entry Placeholder="Passwort" 
+                       TextColor="{OnPlatform UWP={StaticResource SecondaryTextColor}, Default=Azure}" 
+                       Text="{Binding UserPassword}" 
+                       IsPassword="True" 
+                       ReturnCommand="{Binding LoginCommand}"
+                       x:Name="PasswordEntry" />
+                <Button Text="Login" Command="{Binding LoginCommand}" />
                 <Button Text="Refresh" 
                         BackgroundColor="#718792"
-                        BorderColor="{StaticResource TextColor}"
+                        BorderColor="{StaticResource PrimaryColor}"
                         BorderWidth="1"
                         Command="{Binding RefreshBackgroundImageCommand}" />
-                    
+
             </StackLayout>
 
             <StackLayout VerticalOptions="End" Orientation="Horizontal">

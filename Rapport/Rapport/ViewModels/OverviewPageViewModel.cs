@@ -1,17 +1,57 @@
-﻿using Prism.Navigation;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Prism;
+using Prism.Navigation;
+using Rapport.Contracts;
+using Rapport.Data.Models;
 
 namespace Rapport.ViewModels
 {
-    public class OverviewPageViewModel : ViewModelBase
+    public class OverviewPageViewModel : RefreshViewModelBase, IActiveAware
     {
+        private readonly IJiraService _jiraService;
+        public event EventHandler IsActiveChanged;
+
         public OverviewPageViewModel() : base(null)
         {
             // Design Time Constructor
         }
 
-        public OverviewPageViewModel(INavigationService navigationService) : base(navigationService)
+        public OverviewPageViewModel(
+            IJiraService jiraService,
+            INavigationService navigationService) : base(navigationService)
         {
+            _jiraService = jiraService;
             Title = "Overview";
+        }
+
+        private bool _isActive;
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set { SetProperty(ref _isActive, value, RaiseIsActiveChanged); }
+        }
+
+        public IList<IssueModel> TrackedIssues { get; } = new ObservableCollection<IssueModel>();
+
+        protected virtual void RaiseIsActiveChanged()
+        {
+            _ = ExecuteRefreshCommandAsync();
+        }
+
+        protected override async Task RefreshAsync()
+        {
+            TrackedIssues.Clear();
+
+            var activeIssues = await _jiraService.GetTrackedIssuesAsync().ConfigureAwait(true);
+
+            foreach (var issue in activeIssues)
+            {
+                TrackedIssues.Add(issue);
+            }
+
         }
     }
 }

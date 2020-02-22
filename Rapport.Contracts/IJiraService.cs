@@ -17,5 +17,11 @@ namespace Rapport.Contracts
 
         [NotNull]
         Task<IEnumerable<IssueModel>> GetIssues([NotNull] BoardModel board, [NotNull] SprintModel sprint);
+
+        Task TrackIssueAsync([NotNull] IssueModel issue);
+
+        [NotNull]
+        [ItemNotNull]
+        Task<IEnumerable<IssueModel>> GetTrackedIssuesAsync();
     }
 }

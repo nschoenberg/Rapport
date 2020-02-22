@@ -6,7 +6,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Rapport.Data.DTO
 {
-    public partial class BoardResponse
+    public class BoardResponse
     {
         [JsonProperty("maxResults")]
         public int MaxResults { get; set; }
@@ -24,7 +24,7 @@ namespace Rapport.Data.DTO
         public List<Board> Boards { get; set; }
     }
 
-    public partial class Board
+    public class Board
     {
         [JsonProperty("id")]
         public long Id { get; set; }

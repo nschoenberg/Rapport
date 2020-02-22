@@ -4,6 +4,7 @@ using Prism.Ioc;
 using Rapport.Contracts;
 using Rapport.Pexels;
 using Rapport.Services;
+using Rapport.Sql;
 using Rapport.ViewModels;
 using Rapport.Views;
 using Xamarin.Essentials.Implementation;
@@ -42,8 +43,11 @@ namespace Rapport
             containerRegistry.RegisterSingleton<IDeviceDisplay, DeviceDisplayImplementation>();
             containerRegistry.RegisterSingleton<IPexelsRestClient, PexelsRestClient>();
             containerRegistry.RegisterSingleton<IImageService, ImageService>();
-            containerRegistry.RegisterInstance<IConfigurationProvider>(MappingDefinition.GetConfigurationProvider());
+            containerRegistry.RegisterInstance(MappingDefinition.GetConfigurationProvider());
             containerRegistry.RegisterSingleton<IJiraService, JiraService>();
+            containerRegistry.RegisterSingleton<IFileSystem, FileSystemImplementation>();
+            containerRegistry.RegisterSingleton<IPreferences, PreferencesImplementation>();
+            containerRegistry.RegisterSingleton<ISqlRepository, SqlRepository>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<BoardSelectPage, BoardPageViewModel>(Pages.BoardSelect);

@@ -8,11 +8,12 @@
              xmlns:viewModels="clr-namespace:Rapport.ViewModels;assembly=Rapport"
              xmlns:models="clr-namespace:Rapport.Data.Models;assembly=Rapport.Data"
              prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="Rapport.Views.IssueSelectPage"
              Title="{Binding Title}"
-             x:Class="Rapport.Views.IssueSelectPage">
-    
+             Visual="Material">
+
     <d:ContentPage.BindingContext>
-      <viewModels:IssueSelectPageViewModel />
+        <viewModels:IssueSelectPageViewModel />
     </d:ContentPage.BindingContext>
 
     <ListView 
@@ -21,14 +22,24 @@
         RefreshCommand="{Binding RefreshCommand}"
         IsRefreshing="{Binding IsRefreshing}" 
         CachingStrategy="RecycleElementAndDataTemplate"
-        HasUnevenRows="True">
+        HasUnevenRows="True" 
+        x:Name="ListView">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="models:IssueModel">
                 <ViewCell>
                     <StackLayout Orientation="Horizontal" Margin="5, 0, 0, 5" >
-                        
+
                         <Switch HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand" />
+                                VerticalOptions="CenterAndExpand">
+                            <Switch.Behaviors>
+                                <prism:EventToCommandBehavior 
+                                    Command="{Binding Source={x:Reference ListView}, Path=BindingContext.ActivateIssueCommand}"
+                                    CommandParameter="{Binding .}" 
+                                    EventName="Toggled" />
+                            </Switch.Behaviors>
+                        </Switch>
+                        
+
                         <StackLayout Spacing="1">
                             <Label Text="{Binding Key}" FontAttributes="Bold"/>
                             <Label Text="{Binding Summary}" FontSize="10"/>
@@ -38,7 +49,6 @@
                 </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
-
     </ListView>
 
 </ContentPage>

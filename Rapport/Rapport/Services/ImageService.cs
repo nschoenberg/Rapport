@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Rapport.Data.DTO.Pexels.Rapport.DTO;
+using Rapport.Data.DTO.Pexels;
 using Rapport.Data.Models;
 using Rapport.Pexels;
 using Xamarin.Essentials.Interfaces;
@@ -12,17 +12,14 @@ namespace Rapport.Services
     public class ImageService : IImageService
     {
         private readonly IPexelsRestClient _restClient;
-        private readonly IDeviceDisplay _deviceDisplay;
         private readonly Mapper _mapper;
         private readonly Random _random;
 
         public ImageService(
             IPexelsRestClient restClient,
-            IDeviceDisplay deviceDisplay,
             IConfigurationProvider mappingConfigurationProvider)
         {
             _restClient = restClient;
-            _deviceDisplay = deviceDisplay;
             _mapper = new Mapper(mappingConfigurationProvider);
             _random = new Random();
         }

@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Navigation;
+using Rapport.Contracts;
 using Rapport.Services;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
@@ -11,14 +13,13 @@ namespace Rapport.ViewModels
     public class LoginPageViewModel : ViewModelBase, IInitialize
     {
         private readonly IImageService _imageService;
+        private readonly IPreferences _preferences;
 
         private ImageSource _backgroundImage;
 
         private bool _canExecuteRefresh;
 
         private bool _isRefreshing;
-
-        private string _pexelLink;
 
         private string _photographer;
 
@@ -33,21 +34,13 @@ namespace Rapport.ViewModels
             // Design Time Constructor
         }
 
-        public LoginPageViewModel(IDeviceDisplay deviceDisplay, IImageService imageService,
+        public LoginPageViewModel(
+            IImageService imageService,
+            IPreferences preferences,
             INavigationService navigationService) : base(navigationService)
         {
             _imageService = imageService;
-            //var uri = new Uri(
-            //    "https://images.pexels.com/photos/1076429/pexels-photo-1076429.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=1260");
-
-            //uri = new Uri("https://images.pexels.com/photos/397998/pexels-photo-397998.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
-
-
-            //var width = deviceDisplay.MainDisplayInfo.Width;
-            //var height = deviceDisplay.MainDisplayInfo.Height;
-            //uri = new Uri($"https://images.pexels.com/photos/604684/pexels-photo-604684.jpeg?auto=compress&cs=tinysrgb&dpr=3&h={height}&w={width}");
-
-            //_backgroundImage = ImageSource.FromUri(uri);
+            _preferences = preferences;
         }
 
         public ImageSource BackgroundImageSource
@@ -65,6 +58,17 @@ namespace Rapport.ViewModels
         public ICommand RefreshBackgroundImageCommand =>
             _refreshBackgroundImageCommand ?? (_refreshBackgroundImageCommand =
                 new DelegateCommand(ExecuteRefreshBackgroundCommand).ObservesCanExecute(() => CanExecuteRefresh));
+
+        private ICommand _loginCommand;
+        public ICommand LoginCommand =>
+            _loginCommand ?? (_loginCommand = new DelegateCommand(ExecuteLoginCommand));
+
+        private void ExecuteLoginCommand()
+        {
+            _preferences.Set("user", UserName);
+            _preferences.Set("password", UserPassword);
+            NavigationService.NavigateAsync(Pages.Home, ("user", UserName), ("password", UserPassword));
+        }
 
         public bool CanExecuteRefresh
         {
@@ -93,20 +97,22 @@ namespace Rapport.ViewModels
             }
         }
 
-        public void Initialize(INavigationParameters parameters)
+        public override void Initialize(INavigationParameters parameters)
         {
-            // _ = RefreshBackgroundImageAsync();
+            UserName = _preferences.Get("user", string.Empty);
+            UserPassword = _preferences.Get("password", string.Empty);
+
+            _ = RefreshBackgroundImageAsync().ConfigureAwait(false);
         }
 
 
         private void ExecuteRefreshBackgroundCommand()
         {
-            // _ = RefreshBackgroundImageAsync();
+            _ = RefreshBackgroundImageAsync().ConfigureAwait(false);
         }
 
         private async Task RefreshBackgroundImageAsync()
         {
-            return; //await Task.CompletedTask;
             if (IsRefreshing == false)
             {
                 IsRefreshing = true;
@@ -114,12 +120,14 @@ namespace Rapport.ViewModels
 
                 _ = Task.Run(async () =>
                 {
-                    await Task.Delay(3000);
+                    await Task.Delay(3000).ConfigureAwait(true);
                     CanExecuteRefresh = true;
                     return Task.CompletedTask;
                 });
 
-                var photoModel = await _imageService.GetRandomPhotoAsync();
+                var photoModel = await _imageService
+                    .GetRandomPhotoAsync()
+                    .ConfigureAwait(true);
 
                 BackgroundImageSource = photoModel.Url;
                 Photographer = photoModel.Photographer;

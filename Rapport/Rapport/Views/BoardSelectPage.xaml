@@ -10,6 +10,7 @@
              xmlns:models="clr-namespace:Rapport.Data.Models;assembly=Rapport.Data"
              mc:Ignorable="d"
              x:Class="Rapport.Views.BoardSelectPage"
+             Visual="Material"
              Title="{Binding Title}">
     <d:ContentPage.BindingContext>
         <viewModels:BoardPageViewModel />

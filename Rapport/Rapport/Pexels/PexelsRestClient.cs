@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using Rapport.Data.DTO.Pexels.Rapport.DTO;
+using Rapport.Data.DTO.Pexels;
 using RestSharp;
 
 namespace Rapport.Pexels
 {
     public class PexelsRestClient : IPexelsRestClient
     {
-        private IRestClient _client;
+        private readonly IRestClient _client;
         private readonly string _apiKey = string.Empty;
         private const string ApiBaseUri = "https://api.pexels.com/v1/";
 
@@ -32,7 +33,7 @@ namespace Rapport.Pexels
             _client = new RestClient(ApiBaseUri);
         }
 
-        public async Task<IRestResponse<SearchResponse>> SearchAsync(string query, byte resultsPerPage = 15, int startPage = 1)
+        public async Task<IRestResponse<SearchResponse>> SearchAsync(string query, int resultsPerPage = 15, int startPage = 1)
         {
             const string Resource = "search";
             const string QueryParameter = "query";
@@ -42,11 +43,11 @@ namespace Rapport.Pexels
             var request = new RestRequest(Resource, Method.GET);
             request.AddHeader("Authorization", _apiKey);
             request.AddQueryParameter(QueryParameter, query);
-            request.AddQueryParameter(PerPageParameter, resultsPerPage.ToString());
+            request.AddQueryParameter(PerPageParameter, resultsPerPage.ToString(CultureInfo.InvariantCulture));
 
             var normalizedStartPage = startPage < 1 ? 1 : startPage;
 
-            request.AddQueryParameter(PageParameter, normalizedStartPage.ToString());
+            request.AddQueryParameter(PageParameter, normalizedStartPage.ToString(CultureInfo.InvariantCulture));
 
             return await _client.ExecuteAsync<SearchResponse>(request).ConfigureAwait(false);
         }

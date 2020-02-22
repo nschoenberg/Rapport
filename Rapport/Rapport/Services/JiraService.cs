@@ -8,7 +8,9 @@ using JetBrains.Annotations;
 using Rapport.Contracts;
 using Rapport.Data.DTO;
 using Rapport.Data.Models;
+using Rapport.Sql;
 using RestSharp;
+using IFileSystem = Xamarin.Essentials.Interfaces.IFileSystem;
 
 namespace Rapport.Services
 {
@@ -20,11 +22,15 @@ namespace Rapport.Services
     /// </summary>
     public class JiraService : IJiraService
     {
+        private readonly ISqlRepository _sqlRepository;
         private Jira _jira;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
 
-        public JiraService(IConfigurationProvider mappingConfigurationProvider)
+        public JiraService(
+            IConfigurationProvider mappingConfigurationProvider,
+            ISqlRepository sqlRepository)
         {
+            _sqlRepository = sqlRepository;
             _mapper = new Mapper(mappingConfigurationProvider);
         }
 
@@ -33,7 +39,11 @@ namespace Rapport.Services
             _jira = Jira.CreateRestClient("https://intranet.futura4retail.com/issues/", userName, userPassword);
         }
 
-        [NotNull]
+
+        /// <summary>
+        /// https://docs.atlassian.com/jira-software/REST/7.0.4/?_ga=2.39551655.524931630.1581610578-564421449.1549631859#agile/1.0/board-getAllBoards
+        /// </summary>
+        /// <returns></returns>
         [ItemNotNull]
         public async Task<IEnumerable<BoardModel>> GetAllBoardsAsync()
         {
@@ -46,7 +56,7 @@ namespace Rapport.Services
                 var boardResponse =
                     await _jira
                         .RestClient
-                        .ExecuteRequestAsync<BoardResponse>(Method.GET, "rest/agile/1.0/board?startAt=0")
+                        .ExecuteRequestAsync<BoardResponse>(Method.GET, "rest/agile/1.0/board?startAt=0&type=scrum")
                         .ConfigureAwait(false);
 
                 boards.AddRange(boardResponse.Boards);
@@ -82,7 +92,7 @@ namespace Rapport.Services
                     .RestClient
                     .ExecuteRequestAsync<SprintResponse>(Method.GET, "rest/agile/1.0/board/" + board.Id + "/sprint?state=active")
                     .ConfigureAwait(false);
-                
+
                 sprint = sprintResponse.Sprints.First();
             }
             catch (Exception e)
@@ -91,7 +101,6 @@ namespace Rapport.Services
             }
 
             return _mapper.Map<SprintModel>(sprint);
-
         }
 
         public async Task<IEnumerable<IssueModel>> GetIssues(BoardModel board, SprintModel sprint)
@@ -107,9 +116,12 @@ namespace Rapport.Services
                     .ExecuteRequestAsync<IssueResponse>(Method.GET, "rest/agile/1.0/board/" + board.Id + "/sprint/" + sprint.Id + "/issue")
                     .ConfigureAwait(false);
 
-                var tasks = issuesResponse.Issues.Select(issue => _jira.Issues.GetIssueAsync(issue.Key));
+                var keys = issuesResponse.Issues.Select(i => "\"" + i.Key + "\"");
+                var keysFilter = "(" + string.Join(",", keys) + ")";
+                var jql = "key in " + keysFilter;
 
-                issues = await Task.WhenAll(tasks).ConfigureAwait(false);
+                issues = await _jira.Issues.GetIssuesFromJqlAsync(jql);
+
             }
             catch (Exception e)
             {
@@ -117,6 +129,19 @@ namespace Rapport.Services
             }
 
             return _mapper.Map<IEnumerable<Issue>, IEnumerable<IssueModel>>(issues);
+        }
+
+        public async Task TrackIssueAsync(IssueModel issue)
+        {
+            await _sqlRepository
+                .SaveAsync(issue)
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<IssueModel>> GetTrackedIssuesAsync()
+        {
+            var trackedIssues = await _sqlRepository.GetAllAsync().ConfigureAwait(false);
+            return trackedIssues;
         }
 
         private void EnsureInitialized()

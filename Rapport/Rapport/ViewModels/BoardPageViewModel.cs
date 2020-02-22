@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using Atlassian.Jira;
-using AutoMapper;
+using JetBrains.Annotations;
 using Prism.Navigation;
 using Rapport.Contracts;
 using Rapport.Data.Models;
 
 namespace Rapport.ViewModels
 {
-    public class BoardPageViewModel : RefreshViewModelBase, IInitialize
+    public class BoardPageViewModel : RefreshViewModelBase
     {
         private readonly IJiraService _jiraService;
-        private Jira _jira;
         private readonly ObservableCollection<BoardModel> _boards = new ObservableCollection<BoardModel>();
 
         public BoardPageViewModel() : base(null)
@@ -30,7 +29,8 @@ namespace Rapport.ViewModels
             Title = "Select Board";
         }
 
-        public override void Initialize(INavigationParameters parameters)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Prism, its never null.")]
+        public override void Initialize([NotNull] INavigationParameters parameters)
         {
             parameters.TryGetValue("user", out string user);
             parameters.TryGetValue("password", out string password);
@@ -47,13 +47,13 @@ namespace Rapport.ViewModels
 
         protected override async Task RefreshAsync()
         {
-            _boards.Clear();
+            Boards.Clear();
 
-            var boards = await _jiraService.GetAllBoardsAsync();
-            
+            var boards = await _jiraService.GetAllBoardsAsync().ConfigureAwait(true);
+
             foreach (var board in boards.OrderBy(b => b.Name))
             {
-                _boards.Add(board);
+                Boards.Add(board);
             }
         }
     }
