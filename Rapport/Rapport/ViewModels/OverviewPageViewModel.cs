@@ -43,15 +43,17 @@ namespace Rapport.ViewModels
 
         protected override async Task RefreshAsync()
         {
-            TrackedIssues.Clear();
-
-            var activeIssues = await _jiraService.GetTrackedIssuesAsync().ConfigureAwait(true);
-
-            foreach (var issue in activeIssues)
+            if (IsActive)
             {
-                TrackedIssues.Add(issue);
-            }
+                TrackedIssues.Clear();
 
+                var activeIssues = await _jiraService.GetTrackedIssuesAsync().ConfigureAwait(true);
+
+                foreach (var issue in activeIssues)
+                {
+                    TrackedIssues.Add(issue);
+                }
+            }
         }
     }
 }

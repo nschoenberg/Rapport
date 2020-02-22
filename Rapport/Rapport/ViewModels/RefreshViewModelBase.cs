@@ -7,7 +7,7 @@ namespace Rapport.ViewModels
 {
     public abstract class RefreshViewModelBase : ViewModelBase
     {
-        private bool _isRefreshing;
+        private volatile bool _isRefreshing;
 
         protected RefreshViewModelBase(INavigationService navigationService) : base(navigationService) { }
 
@@ -28,9 +28,12 @@ namespace Rapport.ViewModels
 
         protected async Task ExecuteRefreshCommandAsync()
         {
-            IsRefreshing = true;
-            await RefreshAsync();
-            IsRefreshing = false;
+            if (IsRefreshing == false)
+            {
+                IsRefreshing = true;
+                await RefreshAsync();
+                IsRefreshing = false;
+            }
         }
 
         protected abstract Task RefreshAsync();
