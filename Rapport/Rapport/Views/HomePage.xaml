@@ -7,14 +7,16 @@
             xmlns:prism="http://prismlibrary.com"
             xmlns:views="clr-namespace:Rapport.Views;assembly=Rapport"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            xmlns:rapport="clr-namespace:Rapport;assembly=Rapport"
             prism:ViewModelLocator.AutowireViewModel="True"
             BarBackgroundColor="{StaticResource PrimaryLightColor}"
             Visual="Material"
             
             x:Class="Rapport.Views.HomePage" android:TabbedPage.ToolbarPlacement="Bottom">
 
-    <views:OverviewPage />
-    <NavigationPage Title="Select">
+    <views:OverviewPage IconImageSource="{x:FontImage FontFamily='material', Glyph={x:Static rapport:IconFont.Clock}, Size=20}" />
+    <views:OverviewListPage IconImageSource="{x:FontImage FontFamily='material', Glyph={x:Static rapport:IconFont.Clock}, Size=20}"/>
+    <NavigationPage Title="Select" IconImageSource="{x:FontImage FontFamily='material', Glyph={x:Static rapport:IconFont.Bug}, Size=20}">
         <x:Arguments>
             <views:BoardSelectPage />
         </x:Arguments>

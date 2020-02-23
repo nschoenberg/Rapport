@@ -10,6 +10,8 @@
 
         public const string Overview = "OverViewPage";
 
+        public const string OverviewList = "OverViewListPage";
+
         public const string IssueSelect = "IssueSelect";
 
     }

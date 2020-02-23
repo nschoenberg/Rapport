@@ -10,7 +10,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              Title="{Binding Title}"
              Padding="5"
-             x:Class="Rapport.Views.OverviewPage">
+             x:Class="Rapport.Views.OverviewListPage">
 
     <d:ContentPage.BindingContext>
         <viewModels:OverviewPageViewModel />
@@ -24,13 +24,14 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
-        <CollectionView ItemsSource="{Binding TrackedIssues}">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:IssueModel">
+    <ListView ItemsSource="{Binding TrackedIssues}" 
+              IsPullToRefreshEnabled="True"
+              IsRefreshing="{Binding IsRefreshing}"
+              RefreshCommand="{Binding RefreshCommand}"
+              HasUnevenRows="True">
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="models:IssueModel">
+                <ViewCell>
                     <Frame BackgroundColor="{StaticResource SecondaryColor}" CornerRadius="20" Margin="0" Padding="10">
                         <StackLayout  Spacing="0" Margin="0" Padding="0">
                             <Label Text="{Binding Summary}" MaxLines="1" LineBreakMode="TailTruncation"/>
@@ -38,23 +39,9 @@
                             <Label Text="01:47:11" FontSize="30" />
                         </StackLayout>
                     </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
-
-    <!--<ListView ItemsSource="{Binding TrackedIssues}">
-        <ListView.ItemTemplate>
-            <DataTemplate x:DataType="models:IssueModel">
-                <Frame BackgroundColor="{StaticResource SecondaryColor}" CornerRadius="20" Margin="0" Padding="10">
-                    <StackLayout  Spacing="0" Margin="0" Padding="0">
-                        <Label Text="{Binding Summary}" MaxLines="1" LineBreakMode="TailTruncation"/>
-                        <Label Text="{Binding Key}" FontSize="10"/>
-                        <Label Text="01:47:11" FontSize="30" />
-                    </StackLayout>
-                </Frame>
+                </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
-    </ListView>-->
+    </ListView>
 
 </ContentPage>

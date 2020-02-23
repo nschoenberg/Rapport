@@ -41,6 +41,9 @@
     <Compile Update="Views\BoardSelectPage.xaml.cs">
       <DependentUpon>BoardSelectPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\OverviewListPage.xaml.cs">
+      <DependentUpon>OverviewListPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

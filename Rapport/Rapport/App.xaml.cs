@@ -54,6 +54,7 @@ namespace Rapport
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>(Pages.Login);
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>(Pages.Home);
             containerRegistry.RegisterForNavigation<OverviewPage, OverviewPageViewModel>(Pages.Overview);
+            containerRegistry.RegisterForNavigation<OverviewListPage, OverviewPageViewModel>(Pages.OverviewList);
             containerRegistry.RegisterForNavigation<IssueSelectPage, IssueSelectPageViewModel>(Pages.IssueSelect);
         }
     }

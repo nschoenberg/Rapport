@@ -24,7 +24,7 @@ namespace Rapport.ViewModels
             INavigationService navigationService) : base(navigationService)
         {
             _jiraService = jiraService;
-            Title = "Overview";
+            Title = "Tracking";
         }
 
         private bool _isActive;
