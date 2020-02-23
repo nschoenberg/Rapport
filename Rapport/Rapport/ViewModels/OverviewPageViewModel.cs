@@ -38,7 +38,10 @@ namespace Rapport.ViewModels
 
         protected virtual void RaiseIsActiveChanged()
         {
-            _ = ExecuteRefreshCommandAsync();
+            if (RefreshCommand.CanExecute())
+            {
+                RefreshCommand.Execute();
+            }
         }
 
         protected override async Task RefreshAsync()

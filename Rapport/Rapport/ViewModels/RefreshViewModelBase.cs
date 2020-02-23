@@ -7,7 +7,7 @@ namespace Rapport.ViewModels
 {
     public abstract class RefreshViewModelBase : ViewModelBase
     {
-        private volatile bool _isRefreshing;
+        private bool _isRefreshing;
 
         protected RefreshViewModelBase(INavigationService navigationService) : base(navigationService) { }
 
@@ -17,23 +17,20 @@ namespace Rapport.ViewModels
             set { SetProperty(ref _isRefreshing, value); }
         }
 
-        private ICommand _refreshCommand;
-        public ICommand RefreshCommand =>
-            _refreshCommand ?? (_refreshCommand = new DelegateCommand(() => _ = ExecuteRefreshCommandAsync()));
+        private DelegateCommand _refreshCommand;
+        public DelegateCommand RefreshCommand =>
+            _refreshCommand ?? (_refreshCommand = new DelegateCommand(() => _ = ExecuteRefreshCommandAsync(), () => !IsRefreshing).ObservesProperty(() => IsRefreshing));
 
         public override void Initialize(INavigationParameters parameters)
         {
             _ = ExecuteRefreshCommandAsync();
         }
 
-        protected async Task ExecuteRefreshCommandAsync()
+        private async Task ExecuteRefreshCommandAsync()
         {
-            if (IsRefreshing == false)
-            {
-                IsRefreshing = true;
-                await RefreshAsync();
-                IsRefreshing = false;
-            }
+            IsRefreshing = true;
+            await RefreshAsync().ConfigureAwait(false);
+            IsRefreshing = false;
         }
 
         protected abstract Task RefreshAsync();
