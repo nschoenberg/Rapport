@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Prism;
+﻿using Prism;
 using Prism.Ioc;
 using Rapport.Contracts;
 using Rapport.Pexels;
@@ -13,10 +12,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
-[assembly: ExportFont("Font Awesome 5 Free-Regular-400")]
 [assembly: ExportFont("material.ttf")]
-[assembly: ExportFont("Raleway-Black.ttf")]
-[assembly: ExportFont("Raleway-Regular.ttf")]
 namespace Rapport
 {
     public partial class App

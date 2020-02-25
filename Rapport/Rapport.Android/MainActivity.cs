@@ -6,7 +6,7 @@ using Prism.Ioc;
 
 namespace Rapport.Droid
 {
-    [Activity(Label = "Rapport", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Rapport", Icon = "@mipmap/ic_launcher", Theme = "@style/MyTheme.Splash", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstance)
@@ -15,9 +15,8 @@ namespace Rapport.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstance);
-
-            global::Xamarin.Forms.Forms.Init(this, savedInstance);
-            global::Xamarin.Forms.FormsMaterial.Init(this, savedInstance);
+            Xamarin.Forms.Forms.Init(this, savedInstance);
+            Xamarin.Forms.FormsMaterial.Init(this, savedInstance);
             LoadApplication(new App(new AndroidInitializer()));
         }
     }

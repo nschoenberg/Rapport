@@ -42,19 +42,4 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
     </RefreshView>
-
-    <!--<ListView ItemsSource="{Binding TrackedIssues}">
-        <ListView.ItemTemplate>
-            <DataTemplate x:DataType="models:IssueModel">
-                <Frame BackgroundColor="{StaticResource SecondaryColor}" CornerRadius="20" Margin="0" Padding="10">
-                    <StackLayout  Spacing="0" Margin="0" Padding="0">
-                        <Label Text="{Binding Summary}" MaxLines="1" LineBreakMode="TailTruncation"/>
-                        <Label Text="{Binding Key}" FontSize="10"/>
-                        <Label Text="01:47:11" FontSize="30" />
-                    </StackLayout>
-                </Frame>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>-->
-
 </ContentPage>

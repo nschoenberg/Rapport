@@ -6,15 +6,11 @@
 
   <ItemGroup>
     <None Remove="Resources\Fonts\material.ttf" />
-    <None Remove="Resources\Fonts\Raleway-Black.ttf" />
-    <None Remove="Resources\Fonts\Raleway-Regular.ttf" />
     <None Remove="Resources\secrets.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Fonts\material.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Raleway-Black.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Raleway-Regular.ttf" />
     <EmbeddedResource Include="Resources\secrets.txt" />
   </ItemGroup>
 
