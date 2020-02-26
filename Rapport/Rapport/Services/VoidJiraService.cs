@@ -34,13 +34,18 @@ namespace Rapport.Services
 
         public Task<IEnumerable<IssueModel>> GetTrackedIssuesAsync()
         {
-            IEnumerable<IssueModel> res = new List<IssueModel>()
+            IEnumerable<IssueModel> res = new List<IssueModel>
             {
-                new IssueModel() { Key = "4711", Summary = "yo"},
-                new IssueModel() { Key = "4712", Summary = "yo2"},
+                new IssueModel { Key = "4711", Summary = "yo"},
+                new IssueModel { Key = "4712", Summary = "yo2"},
             };
 
             return Task.FromResult(res);
+        }
+
+        public Task<bool> RemoveTrackedIssueAsync(IssueModel issue)
+        {
+            return Task.FromResult(true);
         }
     }
 }

@@ -4,12 +4,11 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:Rapport.ViewModels;assembly=Rapport"
-             xmlns:prism="http://prismlibrary.com"
-             xmlns:contracts="clr-namespace:Rapport.Contracts;assembly=Rapport.Contracts"
              xmlns:behaviors="clr-namespace:Rapport.Behaviors;assembly=Rapport"
              NavigationPage.HasBackButton="False"
              NavigationPage.HasNavigationBar="False"
              mc:Ignorable="d"
+             BackgroundColor="#102027"
              BackgroundImageSource="{Binding BackgroundImageSource}"
              x:Class="Rapport.Views.LoginPage" Visual="Material" Padding="5">
 

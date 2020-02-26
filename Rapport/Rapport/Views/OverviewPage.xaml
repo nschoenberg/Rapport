@@ -13,7 +13,7 @@
              x:Class="Rapport.Views.OverviewPage">
 
     <d:ContentPage.BindingContext>
-        <viewModels:OverviewPageViewModel />
+        <viewModels:TrackedIssuePageViewModel />
     </d:ContentPage.BindingContext>
 
     <ContentPage.Resources>

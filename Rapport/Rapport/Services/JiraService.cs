@@ -144,6 +144,13 @@ namespace Rapport.Services
             return trackedIssues;
         }
 
+        public async Task<bool> RemoveTrackedIssueAsync(IssueModel issue)
+        {
+            return await _sqlRepository
+                .DeleteAsync(issue)
+                .ConfigureAwait(false);
+        }
+
         private void EnsureInitialized()
         {
             if (_jira == null)

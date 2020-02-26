@@ -13,6 +13,7 @@ using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: ExportFont("material.ttf")]
+
 namespace Rapport
 {
     public partial class App
@@ -49,8 +50,7 @@ namespace Rapport
             containerRegistry.RegisterForNavigation<BoardSelectPage, BoardPageViewModel>(Pages.BoardSelect);
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>(Pages.Login);
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>(Pages.Home);
-            containerRegistry.RegisterForNavigation<OverviewPage, OverviewPageViewModel>(Pages.Overview);
-            containerRegistry.RegisterForNavigation<OverviewListPage, OverviewPageViewModel>(Pages.OverviewList);
+            containerRegistry.RegisterForNavigation<TrackedIssuesPage, TrackedIssuePageViewModel>(Pages.TrackedIssues);
             containerRegistry.RegisterForNavigation<IssueSelectPage, IssueSelectPageViewModel>(Pages.IssueSelect);
         }
     }

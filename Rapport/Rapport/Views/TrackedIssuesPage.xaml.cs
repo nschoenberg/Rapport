@@ -2,9 +2,9 @@
 
 namespace Rapport.Views
 {
-    public partial class OverviewListPage : ContentPage
+    public partial class TrackedIssuesPage : ContentPage
     {
-        public OverviewListPage()
+        public TrackedIssuesPage()
         {
             InitializeComponent();
         }

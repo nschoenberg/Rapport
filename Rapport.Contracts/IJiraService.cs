@@ -23,5 +23,7 @@ namespace Rapport.Contracts
         [NotNull]
         [ItemNotNull]
         Task<IEnumerable<IssueModel>> GetTrackedIssuesAsync();
+
+        Task<bool> RemoveTrackedIssueAsync([NotNull] IssueModel issue);
     }
 }

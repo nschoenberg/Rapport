@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Prism;
+using Prism.Commands;
 using Prism.Navigation;
 using Rapport.Contracts;
 using Rapport.Data.Models;
 
 namespace Rapport.ViewModels
 {
-    public class OverviewPageViewModel : RefreshViewModelBase, IActiveAware
+    public class TrackedIssuePageViewModel : RefreshViewModelBase, IActiveAware
     {
         private readonly IJiraService _jiraService;
         public event EventHandler IsActiveChanged;
 
-        public OverviewPageViewModel() : base(null)
+        public TrackedIssuePageViewModel() : base(null)
         {
             // Design Time Constructor
         }
 
-        public OverviewPageViewModel(
+        public TrackedIssuePageViewModel(
             IJiraService jiraService,
             INavigationService navigationService) : base(navigationService)
         {
@@ -35,6 +37,17 @@ namespace Rapport.ViewModels
         }
 
         public IList<IssueModel> TrackedIssues { get; } = new ObservableCollection<IssueModel>();
+
+        private ICommand _deleteTrackedIssueCommand;
+
+        public ICommand DeleteTrackedIssueCommand =>
+            _deleteTrackedIssueCommand ?? (_deleteTrackedIssueCommand = new DelegateCommand<IssueModel>(ExecuteDeleteTrackedIssueCommand));
+
+        private void ExecuteDeleteTrackedIssueCommand(IssueModel issue)
+        {
+            TrackedIssues.Remove(issue);
+            _ = _jiraService.RemoveTrackedIssueAsync(issue).ConfigureAwait(false);
+        }
 
         protected virtual void RaiseIsActiveChanged()
         {

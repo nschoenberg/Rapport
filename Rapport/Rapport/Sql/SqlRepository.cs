@@ -10,9 +10,10 @@ namespace Rapport.Sql
 {
     public interface ISqlRepository
     {
-        Task SaveAsync(IssueModel model);
+        Task SaveAsync(IssueModel issue);
 
         Task<IEnumerable<IssueModel>> GetAllAsync();
+        Task<bool> DeleteAsync(IssueModel issue);
     }
 
     public class SqlRepository : ISqlRepository
@@ -28,25 +29,25 @@ namespace Rapport.Sql
             _mapper = new Mapper(mapperConfigurationProvider);
         }
 
-        public async Task SaveAsync(IssueModel model)
+        public async Task SaveAsync(IssueModel issue)
         {
             var existingIssue = await _connection
                 .Table<ActiveIssueTable>()
-                .FirstOrDefaultAsync(x => x.Key == model.Key)
+                .FirstOrDefaultAsync(x => x.Key == issue.Key)
                 .ConfigureAwait(false);
 
-            var issue = _mapper.Map<IssueModel, ActiveIssueTable>(model);
+            var issueRecord = _mapper.Map<IssueModel, ActiveIssueTable>(issue);
 
             if (existingIssue == null)
             {
                 await _connection
-                    .InsertAsync(issue, typeof(ActiveIssueTable))
+                    .InsertAsync(issueRecord, typeof(ActiveIssueTable))
                     .ConfigureAwait(false);
             }
             else
             {
-                issue.Id = existingIssue.Id;
-                await _connection.UpdateAsync(issue, typeof(ActiveIssueTable));
+                issueRecord.Id = existingIssue.Id;
+                await _connection.UpdateAsync(issueRecord, typeof(ActiveIssueTable));
             }
         }
 
@@ -54,6 +55,23 @@ namespace Rapport.Sql
         {
             var activeIssues = await _connection.Table<ActiveIssueTable>().ToListAsync();
             return _mapper.Map<IEnumerable<ActiveIssueTable>, IEnumerable<IssueModel>>(activeIssues);
+        }
+
+        public async Task<bool> DeleteAsync(IssueModel issue)
+        {
+            var existingIssue = await _connection
+                .Table<ActiveIssueTable>()
+                .FirstOrDefaultAsync(x => x.Key == issue.Key)
+                .ConfigureAwait(false);
+
+            if (existingIssue != null)
+            {
+                return await _connection
+                    .DeleteAsync<ActiveIssueTable>(existingIssue.Id)
+                    .ConfigureAwait(false) > 0;
+            }
+
+            return false;
         }
     }
 }

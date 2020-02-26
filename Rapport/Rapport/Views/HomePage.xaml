@@ -14,8 +14,7 @@
             
             x:Class="Rapport.Views.HomePage" android:TabbedPage.ToolbarPlacement="Bottom">
 
-    <views:OverviewPage IconImageSource="{x:FontImage FontFamily='material', Glyph={x:Static rapport:IconFont.Clock}, Size=20}" />
-    <views:OverviewListPage IconImageSource="{x:FontImage FontFamily='material', Glyph={x:Static rapport:IconFont.Clock}, Size=20}"/>
+    <views:TrackedIssuesPage IconImageSource="{x:FontImage FontFamily='material', Glyph={x:Static rapport:IconFont.Clock}, Size=20}"/>
     <NavigationPage Title="Select" IconImageSource="{x:FontImage FontFamily='material', Glyph={x:Static rapport:IconFont.Bug}, Size=20}">
         <x:Arguments>
             <views:BoardSelectPage />
