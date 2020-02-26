@@ -2,5 +2,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="de.solidsoftware.rapport" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="29" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:label="Rapport.Android" android:icon="@mipmap/ic_launcher" android:theme="@android:style/Theme.Material"></application>
+	<application android:label="Rapport" android:icon="@mipmap/ic_launcher" android:theme="@android:style/Theme.Material"></application>
 </manifest>
