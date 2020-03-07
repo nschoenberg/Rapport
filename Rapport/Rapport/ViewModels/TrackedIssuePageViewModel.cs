@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism;
@@ -30,10 +31,19 @@ namespace Rapport.ViewModels
         }
 
         private bool _isActive;
+
         public bool IsActive
         {
             get { return _isActive; }
             set { SetProperty(ref _isActive, value, RaiseIsActiveChanged); }
+        }
+
+        private bool _showHint;
+
+        public bool ShowHint
+        {
+            get { return _showHint; }
+            set { SetProperty(ref _showHint, value); }
         }
 
         public IList<IssueModel> TrackedIssues { get; } = new ObservableCollection<IssueModel>();
@@ -41,12 +51,14 @@ namespace Rapport.ViewModels
         private ICommand _deleteTrackedIssueCommand;
 
         public ICommand DeleteTrackedIssueCommand =>
-            _deleteTrackedIssueCommand ?? (_deleteTrackedIssueCommand = new DelegateCommand<IssueModel>(ExecuteDeleteTrackedIssueCommand));
+            _deleteTrackedIssueCommand ?? (_deleteTrackedIssueCommand =
+                new DelegateCommand<IssueModel>(ExecuteDeleteTrackedIssueCommand));
 
         private void ExecuteDeleteTrackedIssueCommand(IssueModel issue)
         {
             TrackedIssues.Remove(issue);
             _ = _jiraService.RemoveTrackedIssueAsync(issue).ConfigureAwait(false);
+            ShowHint = !TrackedIssues.Any();
         }
 
         protected virtual void RaiseIsActiveChanged()
@@ -69,6 +81,8 @@ namespace Rapport.ViewModels
                 {
                     TrackedIssues.Add(issue);
                 }
+
+                ShowHint = !TrackedIssues.Any();
             }
         }
     }

@@ -8,7 +8,6 @@
              xmlns:viewModels="clr-namespace:Rapport.ViewModels;assembly=Rapport"
              xmlns:models="clr-namespace:Rapport.Data.Models;assembly=Rapport.Data"
              xmlns:rapport="clr-namespace:Rapport;assembly=Rapport"
-             xmlns:converter="clr-namespace:Rapport.Converter;assembly=Rapport"
              prism:ViewModelLocator.AutowireViewModel="True"
              Title="{Binding Title}"
              Padding="5"
@@ -24,19 +23,17 @@
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource SecondaryTextColor}" />
             </Style>
-            <converter:CollectionEmptyToBooleanConverter x:Key="CollectionEmptyToBooleanConverter" />
-            <converter:CollectionNotEmptyToBooleanConverter x:Key="CollectionNotEmptyToBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <Grid>
 
-        <!--<Label Text="Select a Board and configure Issues to track"
+        <Label Text="Select a Board and configure Issues to track"
                FontSize="20"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
                VerticalOptions="Center" 
                HorizontalOptions="Center" 
-               IsVisible="{Binding TrackedIssues, Converter={x:StaticResource CollectionEmptyToBooleanConverter}}"/>-->
+               IsVisible="{Binding ShowHint}" />
 
         <ListView ItemsSource="{Binding TrackedIssues}" 
               IsPullToRefreshEnabled="True"
@@ -51,7 +48,7 @@
                             <MenuItem Command="{Binding Source={x:Reference TrackedIssuesListView}, Path=BindingContext.DeleteTrackedIssueCommand}"
                                   CommandParameter="{Binding .}"
                                   IsDestructive="True"
-                                  IconImageSource="{x:FontImage FontFamily='material', Glyph={x:Static rapport:IconFont.Delete}, Size=20}"></MenuItem>
+                                  IconImageSource="{x:FontImage FontFamily='material', Glyph={x:Static rapport:IconFont.Delete}, Size=20}" />
                         </ViewCell.ContextActions>
                         <StackLayout  Spacing="0" Margin="0" Padding="0">
                             <Label Text="{Binding Summary}" MaxLines="1" LineBreakMode="TailTruncation"/>
