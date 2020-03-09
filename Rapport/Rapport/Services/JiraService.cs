@@ -131,7 +131,7 @@ namespace Rapport.Services
             return _mapper.Map<IEnumerable<Issue>, IEnumerable<IssueModel>>(issues);
         }
 
-        public async Task TrackIssueAsync(IssueModel issue)
+        public async Task AddTrackedIssueAsync(IssueModel issue)
         {
             await _sqlRepository
                 .SaveAsync(issue)
@@ -149,6 +149,18 @@ namespace Rapport.Services
             return await _sqlRepository
                 .DeleteAsync(issue)
                 .ConfigureAwait(false);
+        }
+
+        public Task EndWorkingOnIssueAsync(IssueModel issue)
+        {
+            issue.CurrentWorklog?.Finish();
+            return Task.CompletedTask;
+        }
+
+        public async Task BeginWorkingOnIssueAsync(IssueModel issue)
+        {
+            issue.AddWorklog();
+            await _sqlRepository.SaveAsync(issue).ConfigureAwait(false);
         }
 
         private void EnsureInitialized()

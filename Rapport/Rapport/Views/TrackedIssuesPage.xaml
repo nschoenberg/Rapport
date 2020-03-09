@@ -39,6 +39,7 @@
               IsPullToRefreshEnabled="True"
               IsRefreshing="{Binding IsRefreshing}"
               RefreshCommand="{Binding RefreshCommand}"
+              SelectedItem="{Binding SelectedIssue}"
               HasUnevenRows="True"
               x:Name="TrackedIssuesListView">
             <ListView.ItemTemplate>

@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Atlassian.Jira;
+using AutoMapper.QueryableExtensions;
+using JetBrains.Annotations;
 using Prism;
 using Prism.Commands;
 using Prism.Navigation;
@@ -44,6 +47,34 @@ namespace Rapport.ViewModels
         {
             get { return _showHint; }
             set { SetProperty(ref _showHint, value); }
+        }
+
+        private IssueModel _selectedIssue;
+        public IssueModel SelectedIssue
+        {
+            get { return _selectedIssue; }
+            set
+            {
+                var oldValue = value;
+                var changed = SetProperty(ref _selectedIssue, value);
+                if (changed)
+                {
+                    SelectedIssueChanged(oldValue, _selectedIssue);
+                }
+            }
+        }
+
+        private void SelectedIssueChanged([CanBeNull] IssueModel oldValue, [CanBeNull] IssueModel newValue)
+        {
+            if (oldValue != null)
+            {
+                _ = _jiraService.EndWorkingOnIssueAsync(oldValue).ConfigureAwait(false);
+            }
+
+            if (newValue != null)
+            {
+                _ = _jiraService.BeginWorkingOnIssueAsync(newValue).ConfigureAwait(false);
+            }
         }
 
         public IList<IssueModel> TrackedIssues { get; } = new ObservableCollection<IssueModel>();

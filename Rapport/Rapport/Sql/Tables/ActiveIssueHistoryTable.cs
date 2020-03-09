@@ -11,8 +11,8 @@ namespace Rapport.Sql.Tables
         [Indexed]
         public int TicketId { get; set; }
 
-        public DateTime StartedUTC { get; set; }
+        public DateTime StartedUtc { get; set; }
 
-        public DateTime FnishedUTC { get; set; }
+        public DateTime FinishedUtc { get; set; }
     }
 }

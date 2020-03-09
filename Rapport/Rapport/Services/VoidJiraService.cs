@@ -27,7 +27,7 @@ namespace Rapport.Services
             return Task.FromResult(Enumerable.Empty<IssueModel>());
         }
 
-        public Task TrackIssueAsync(IssueModel issue)
+        public Task AddTrackedIssueAsync(IssueModel issue)
         {
             return Task.CompletedTask;
         }
@@ -46,6 +46,16 @@ namespace Rapport.Services
         public Task<bool> RemoveTrackedIssueAsync(IssueModel issue)
         {
             return Task.FromResult(true);
+        }
+
+        public Task EndWorkingOnIssueAsync(IssueModel issue)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task BeginWorkingOnIssueAsync(IssueModel issue)
+        {
+            return Task.CompletedTask;
         }
     }
 }

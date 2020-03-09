@@ -37,7 +37,7 @@ namespace Rapport.ViewModels
 
         private void ExecuteActivateIssueCommand([NotNull] IssueModel model)
         {
-            _ = _jiraService.TrackIssueAsync(model).ConfigureAwait(false);
+            _ = _jiraService.AddTrackedIssueAsync(model).ConfigureAwait(false);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Prism, its never null.")]
